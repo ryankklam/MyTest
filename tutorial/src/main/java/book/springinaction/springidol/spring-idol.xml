@@ -20,4 +20,47 @@ default-autowire="byType">
 	</bean>
 	<bean id="saxophone" class="book.springinaction.springidol.Saxophone"></bean>
 	
+	<bean id="penny" class="book.springinaction.springidol.Instrumentalist">
+		<property name="song" value="don't cry for me argentina"></property>
+		<property name="instrument">
+			<bean class="book.springinaction.springidol.Piano"></bean>
+		</property>
+	</bean>
+	
+	<bean id="blindfly" class="book.springinaction.springidol.Song">
+		<property name="title" value="盲头乌蝇"></property>
+		<property name="LINE" value="宁愿牺牲一次也好,撞开公式的领土,腾出不羁天空给我乱舞."></property>
+	</bean>
+
+	<bean id="everyteardrop" class="book.springinaction.springidol.Song">
+		<property name="title" value="every teardrop is a waterfall"></property>
+		<property name="LINE" value="every siren is a symphony,And every tear's a waterfall"></property>
+	</bean>
+	
+	<bean id="KimLing" class="book.springinaction.springidol.ItinerantSinger">
+	<property name="knowSongs">
+		<list>
+			<ref bean="blindfly"/>
+			<ref bean="everyteardrop"/>
+		</list>
+	</property>
+	<property name="albumnMap">
+		<map>
+			<entry key-ref="blindfly" value="幕后玩家"></entry>
+			<entry key-ref="everyteardrop" value="Capitol"></entry>
+		</map>
+	</property>
+	<property name="authorPros">
+		<props>
+			<prop key="盲头乌蝇">Ever</prop>
+			<prop key="every teardrop is a waterfall">ColdPlay</prop>
+		</props>
+	</property>
+	</bean>
+	
+	<bean id="KimLingBestSong" class="book.springinaction.springidol.Song">
+		<property name="title" value="#{KimLing.selectBestSong().getTitle()}"></property>
+		<property name="LINE" value="#{KimLing.selectBestSong().sing()}"></property>
+	</bean>
+	
 </beans>
