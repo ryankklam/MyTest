@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
 xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
-default-autowire="byType">
+	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+<context:annotation-config/>
+
 	<bean id="duke" class="book.springinaction.springidol.Juggler"></bean>
 	<bean id="Sonnet29" class="book.springinaction.springidol.Sonnet29"></bean>
 	<bean id="poeticduke" class="book.springinaction.springidol.PoeticJuggler">
@@ -61,6 +65,36 @@ default-autowire="byType">
 	<bean id="KimLingBestSong" class="book.springinaction.springidol.Song">
 		<property name="title" value="#{KimLing.selectBestSong().getTitle()}"></property>
 		<property name="LINE" value="#{KimLing.selectBestSong().sing()}"></property>
+	</bean>
+
+	<bean id="anthonyHopkins" class="book.springinaction.springidol.PlayActor">
+		<property name="name" value="Anthony Hopkins"></property>
+		<property name="dateOfBirth" value="1937-12-31"></property>
+		<property name="placeOfBirth"
+			value="Margam, Port Talbot, West Glamorgan, Wales, UK"></property>
+	</bean>
+	<bean id="evanRachelWood" class="book.springinaction.springidol.PlayActor">
+		<property name="name" value="Evan Rachel Wood"></property>
+		<property name="dateOfBirth" value="1987-09-07"></property>
+		<property name="placeOfBirth"
+			value="Raleigh, North Carolina, USA"></property>
+	</bean>
+	<bean id="jeffreyWright" class="book.springinaction.springidol.PlayActor">
+		<property name="name" value="Jeffrey Wright"></property>
+		<property name="dateOfBirth" value="1965-12-07"></property>
+		<property name="placeOfBirth"
+			value=" Washington, District of Columbia, USA"></property>
+	</bean>
+	<bean id="Westworld" class="book.springinaction.springidol.TVSeries">
+		<property name="title" value="Westworld 2016"></property>
+		<!-- <property name="majorAct" ref="EvanRachelWood"></property> -->
+		<property name="castMap">
+			<map>
+				<entry key="Dr. Robert Ford" value-ref="anthonyHopkins"></entry>
+				<entry key="Dolores Abernathy" value-ref="evanRachelWood"></entry>
+				<entry key="Bernard Lowe" value-ref="jeffreyWright"></entry>
+			</map>
+		</property>
 	</bean>
 	
 </beans>
