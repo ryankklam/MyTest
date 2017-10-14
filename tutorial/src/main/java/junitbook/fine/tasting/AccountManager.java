@@ -8,7 +8,7 @@ package junitbook.fine.tasting;
 
 /**
  * @ClassName: AccountManager  
- * @Description: TODO(Override class description here)  
+ * @Description: AccountManager 
  * @date 2016-4-16 
  */
 public interface AccountManager {

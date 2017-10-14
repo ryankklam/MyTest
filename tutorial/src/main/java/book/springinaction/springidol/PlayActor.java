@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class PlayActor {
 	String name;
+//	@DateTimeFormat(pattern = "yyyy-MM-dd") 
 	String dateOfBirth;
 	String placeOfBirth;
 
@@ -27,7 +28,6 @@ public class PlayActor {
 
 	public PlayActor() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public PlayActor(String name, String dateOfBirth, String placeOfBirth) {

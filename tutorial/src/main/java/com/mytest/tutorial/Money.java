@@ -8,7 +8,7 @@ package com.mytest.tutorial;
 
 /**
  * @ClassName: Money  
- * @Description: TODO(Override class description here)  
+ * @Description: Money
  * @date 2016-4-11 
  */
 public abstract class Money {

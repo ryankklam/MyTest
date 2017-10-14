@@ -6,23 +6,38 @@ package book.tamebadcode;
  *  @Email: 	ryan4299899@126.com
  *
  */
-public class PhoneClock {
+public class PhoneClock extends Clock{
 
-	private CityClock cityClock;
-	private int utcOffset;
+	private HotelWorldClockSystem hotelWorldClockSystem;
+	private int time;
 
 	public PhoneClock(int utcOffset) {
-		this.utcOffset=utcOffset;
-	}
-	
-	public void setCityClock(CityClock cityClock) {
-		this.cityClock=cityClock;
-		
+		super.utcOffset=utcOffset;
 	}
 
 	public void setTime(int time) {
-		this.cityClock.setUtcZeroTime(time - this.utcOffset);
+		this.time=time;
+		if(hotelWorldClockSystem==null) return;
+//		this.cityClock.setUtcZeroTime(time - this.utcOffset);
+		for(CityClock cityClock :hotelWorldClockSystem.getClocks() ){
+			cityClock.setUtcZeroTime(time - super.utcOffset);
+		}
 		
 	}
+
+	public HotelWorldClockSystem getHotelWorldClockSystem() {
+		return hotelWorldClockSystem;
+	}
+
+	public void setHotelWorldClockSystem(HotelWorldClockSystem hotelWorldClockSystem) {
+		this.hotelWorldClockSystem = hotelWorldClockSystem;
+	}
+
+	@Override
+	public int getTime() {
+		return this.time;
+	}
+	
+	
 
 }

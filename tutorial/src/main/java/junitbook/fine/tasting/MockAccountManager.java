@@ -10,7 +10,7 @@ import java.util.Hashtable;
 
 /**
  * @ClassName: MockAccountManager  
- * @Description: TODO(Override class description here)  
+ * @Description: MockAccountManager
  * @date 2016-4-16 
  */
 public class MockAccountManager implements AccountManager{

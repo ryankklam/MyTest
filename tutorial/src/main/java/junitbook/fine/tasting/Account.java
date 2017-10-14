@@ -8,7 +8,7 @@ package junitbook.fine.tasting;
 
 /**
  * @ClassName: Account  
- * @Description: TODO(Override class description here)  
+ * @Description: Account  
  * @date 2016-4-16 
  */
 public class Account {

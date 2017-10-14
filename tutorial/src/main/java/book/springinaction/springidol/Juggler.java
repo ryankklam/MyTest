@@ -5,7 +5,6 @@ public class Juggler implements Performer {
 
 	public Juggler() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Juggler(int beanBags) {

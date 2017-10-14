@@ -8,7 +8,7 @@ package com.mytest.tutorial;
 
 /**
  * @ClassName: Franc  
- * @Description: TODO(Override class description here)  
+ * @Description: Franc
  * @date 2016-4-10 
  */
 public class Franc extends Money{
