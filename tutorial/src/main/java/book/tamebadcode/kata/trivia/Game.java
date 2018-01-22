@@ -7,111 +7,119 @@ package book.tamebadcode.kata.trivia;
  *
  */
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Game {
-	//TODO : the fields of class Game should be private
-    ArrayList players = new ArrayList();
-    int[] places = new int[6];
-    int[] purses = new int[6];
-    boolean[] inPenaltyBox = new boolean[6];
+	
+	private Logger logger = Logger.getLogger("book.tamebadcode.kata.trivia.Game");
+	private static FileHandler fileHandler = null; 
+	
+//    private ArrayList players = new ArrayList();
+	private ArrayList<Player> players = new ArrayList<Player>();
+    private int[] places = new int[6];
+    private int[] purses = new int[6];
+    private boolean[] inPenaltyBox = new boolean[6];
 
-    LinkedList popQuestions = new LinkedList();
-    LinkedList scienceQuestions = new LinkedList();
-    LinkedList sportsQuestions = new LinkedList();
-    LinkedList rockQuestions = new LinkedList();
+//    private LinkedList popQuestions = new LinkedList();
+//    private LinkedList scienceQuestions = new LinkedList();
+//    private LinkedList sportsQuestions = new LinkedList();
+//    private LinkedList rockQuestions = new LinkedList();
 
-    int currentPlayer = 0;
-    boolean isGettingOutOfPenaltyBox;
+    private int currentPlayer = 0;
+    private boolean isGettingOutOfPenaltyBox;
+    private QuestionMaker questionMaker = new QuestionMaker();
 
     public Game() {
-        for (int i = 0; i < 50; i++) {
-            popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast(("Science Question " + i));
-            sportsQuestions.addLast(("Sports Question " + i));
-            //TODO: inline method Game.createRockQuestion();
-            rockQuestions.addLast(createRockQuestion(i));
+    	
+    	try {
+			fileHandler= new FileHandler("%h/Game-logging.log",10000000,1,true);
+			fileHandler.setFormatter(new SimpleFormatter());
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	logger.addHandler(fileHandler);
+
+        for (int i = 1; i <= 50; i++) {
+//            popQuestions.addLast("Pop Question " + i);
+//            scienceQuestions.addLast(("Science Question " + i));
+//            sportsQuestions.addLast(("Sports Question " + i));
+//            rockQuestions.addLast("Rock Question " + i);
+            questionMaker.addPopQuestions("Pop Question " + i);
+            questionMaker.addScienceQuestions("Science Question " + i);
+            questionMaker.addSportsQuestions("Sports Question " + i);
+            questionMaker.addRockQuestions("Rock Question " + i);
         }
     }
 
-    //TODO: Change method Game.createRockQuestion() to be private since it's only used in constructor (no used in client side)
-    public String createRockQuestion(int index) {
-        return "Rock Question " + index;
-    }
-
-    //TODO : Remove unused Game.isPlayable() method
-    public boolean isPlayable() {
-        return (howManyPlayers() >= 2);
-    }
-
-    //TODO : return value of Game.add() method it's unused
-    public boolean add(String playerName) {
-
-
-        players.add(playerName);
+    public void add(String playerName) {
+//        players.add(playerName);
+    	players.add(new Player(playerName));
         places[howManyPlayers()] = 0;
         purses[howManyPlayers()] = 0;
         inPenaltyBox[howManyPlayers()] = false;
 
-        //TODO : replace system out print with a log method with logger
-        System.out.println(playerName + " was added");
-        System.out.println("They are player number " + players.size());
-        return true;
+        logger.info(playerName + " was added");
+        logger.info("The total num of players is " + players.size());
     }
 
-    //TODO : Game.howManyPlayers() is used only inside Class Game, should set as private
-    public int howManyPlayers() {
+    private int howManyPlayers() {
         return players.size();
     }
 
-    //TODO : Rename the name of the parameter of method Game.roll*( to be 'rollingNumber'
-    public void roll(int roll) {
-        System.out.println(players.get(currentPlayer) + " is the current player");
-        System.out.println("They have rolled a " + roll);
+    public void roll(int rollingNumber) {
+        logger.info(players.get(currentPlayer) + " is the current player");
+        logger.info("They have rolled a " + rollingNumber);
 
         if (inPenaltyBox[currentPlayer]) {
-            if (roll % 2 != 0) {
+            if (rollingNumber % 2 != 0) {
                 isGettingOutOfPenaltyBox = true;
 
-                System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
-                //TODO : duplicate code in method Game.Roll()
-                places[currentPlayer] = places[currentPlayer] + roll;
-                if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-
-                System.out.println(players.get(currentPlayer)
-                        + "'s new location is "
-                        + places[currentPlayer]);
-                System.out.println("The category is " + currentCategory());
-                askQuestion();
+                logger.info(players.get(currentPlayer) + " is getting out of the penalty box");
+                currentPlayerMovesAToNewPlaceAndAnswersAQuestion(rollingNumber);
             } else {
-                System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
+            	logger.info(players.get(currentPlayer) + " is not getting out of the penalty box");
                 isGettingOutOfPenaltyBox = false;
             }
 
         } else {
-
-            places[currentPlayer] = places[currentPlayer] + roll;
-            if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-
-            System.out.println(players.get(currentPlayer)
-                    + "'s new location is "
-                    + places[currentPlayer]);
-            System.out.println("The category is " + currentCategory());
-            askQuestion();
+        	currentPlayerMovesAToNewPlaceAndAnswersAQuestion(rollingNumber);
         }
 
+    }
+    
+    private void currentPlayerMovesAToNewPlaceAndAnswersAQuestion(int rollingNumber){
+        places[currentPlayer] = places[currentPlayer] + rollingNumber;
+        if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+
+        logger.info(players.get(currentPlayer)
+                + "'s new location is "
+                + places[currentPlayer]);
+        logger.info("The category is " + currentCategory());
+        askQuestion();
     }
 
     private void askQuestion() {
         if (currentCategory() == "Pop")
-            System.out.println(popQuestions.removeFirst());
+//            logger.info((String) popQuestions.removeFirst());
+        	logger.info(questionMaker.RemoveFirstPopQuestions());
         if (currentCategory() == "Science")
-            System.out.println(scienceQuestions.removeFirst());
+//            logger.info((String) scienceQuestions.removeFirst());
+        	logger.info(questionMaker.RemoveFirstScienceQuestions());
         if (currentCategory() == "Sports")
-            System.out.println(sportsQuestions.removeFirst());
+//            logger.info((String) sportsQuestions.removeFirst());
+        	logger.info(questionMaker.RemoveFirstSportsQuestions());
         if (currentCategory() == "Rock")
-            System.out.println(rockQuestions.removeFirst());
+//            logger.info((String) rockQuestions.removeFirst());
+        	logger.info(questionMaker.RemoveFirstRockQuestions());
     }
 
 
@@ -128,59 +136,52 @@ public class Game {
         return "Rock";
     }
 
-    public boolean wasCorrectlyAnswered() {
-        if (inPenaltyBox[currentPlayer]) {
-            if (isGettingOutOfPenaltyBox) {
-                System.out.println("Answer was correct!!!!");
-                purses[currentPlayer]++;
-                System.out.println(players.get(currentPlayer)
-                        + " now has "
-                        + purses[currentPlayer]
-                        + " Gold Coins.");
-                //TODO : Rename variable 'winner' to be 'isGameStillInProgress' 
-                boolean winner = didPlayerWin();
-                currentPlayer++;
-                if (currentPlayer == players.size()) currentPlayer = 0;
+	public boolean wasCorrectlyAnswered() {
+		if (inPenaltyBox[currentPlayer]) {
+			if (isGettingOutOfPenaltyBox) {
+				return currentPlayerGetsAGoldCoinAndSelectNextPlayer();
+			} else {
+				nextPlayer();
+				return true;
+			}
 
-                return winner;
-            } else {
-                //TODO : Duplicate code in method Game.wasCorrectlyAnswered()
-                currentPlayer++;
-                if (currentPlayer == players.size()) currentPlayer = 0;
-                return true;
-            }
+		} else {
 
+			return currentPlayerGetsAGoldCoinAndSelectNextPlayer();
+		}
+	}
+    
+    private boolean currentPlayerGetsAGoldCoinAndSelectNextPlayer(){
+    	logger.info("Answer was corrent!!!!");
+        purses[currentPlayer]++;
+        logger.info(players.get(currentPlayer)
+                + " now has "
+                + purses[currentPlayer]
+                + " Gold Coins.");
 
-        } else {
-            //TODO : Duplicate code in method Game.wasCorrectlyAnswered(). Outer.
-            System.out.println("Answer was corrent!!!!");
-            purses[currentPlayer]++;
-            System.out.println(players.get(currentPlayer)
-                    + " now has "
-                    + purses[currentPlayer]
-                    + " Gold Coins.");
+        boolean isGameStillInProgress = isGameStillInProgress();
+        nextPlayer();
 
-            boolean winner = didPlayerWin();
-            currentPlayer++;
-            if (currentPlayer == players.size()) currentPlayer = 0;
-
-            return winner;
-        }
+        return isGameStillInProgress;
+    }
+    
+    private void nextPlayer(){
+        currentPlayer++;
+        if (currentPlayer == players.size()) currentPlayer = 0;
     }
 
     public boolean wrongAnswer() {
-        System.out.println("Question was incorrectly answered");
-        System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
+        logger.info("Question was incorrectly answered");
+        logger.info(players.get(currentPlayer) + " was sent to the penalty box");
         inPenaltyBox[currentPlayer] = true;
 
         currentPlayer++;
         if (currentPlayer == players.size()) currentPlayer = 0;
-        //TODO : The return value of method Game.wrongAnswer() is unnecessary and should be eliminated
+        //TODO-later : The return value of method Game.wrongAnswer() is unnecessary and should be eliminated
         return true;
     }
-
-    //TODO : The name of the method Game.didPlayerWin() should be Game.isGameStillInProgress()
-    private boolean didPlayerWin() {
+    
+    private boolean isGameStillInProgress() {
         return !(purses[currentPlayer] == 6);
     }
 }

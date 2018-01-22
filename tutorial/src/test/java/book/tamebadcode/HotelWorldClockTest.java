@@ -46,7 +46,6 @@ public class HotelWorldClockTest {
 		assertEquals(20,newyorkClock.getTime());
 	}
 	
-	//TODO-Working-On using Observer pattern
 	@Test
 	public void the_phone_clock_is_set_to_9_Beijing_time(){
 		//Arrange
