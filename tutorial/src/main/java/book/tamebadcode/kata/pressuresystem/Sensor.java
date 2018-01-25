@@ -9,7 +9,7 @@ import java.util.Random;
  *  @Email: 	ryan4299899@126.com
  *
  */
-public class Sensor {
+public class Sensor implements Transducer{
 	public static final double OFFSET = 16;
 	
 	public double popNextPressurePsiValue(){
