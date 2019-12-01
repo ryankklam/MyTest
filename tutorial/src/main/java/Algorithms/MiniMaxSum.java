@@ -2,6 +2,9 @@ package Algorithms;
 
 import java.math.BigInteger;
 
+/**
+    https://www.hackerrank.com/challenges/mini-max-sum/problem
+*/
 public class MiniMaxSum {
 
     // Complete the miniMaxSum function below.
