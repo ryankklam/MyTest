@@ -143,4 +143,6 @@ Linux客户端下载地址
 ## mac connect to vm
 ```sh
 ssh -i ~/.ssh/vitaaws.pem ubuntu@ec2-18-191-33-62.us-east-2.compute.amazonaws.com
+
+sudo /usr/local/bin/ssserver -c /etc/shadowsocks/ss.json -d start
 ```
