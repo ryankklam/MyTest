@@ -144,3 +144,62 @@ Linux客户端下载地址
 ```sh
 ssh -i ~/.ssh/vitaaws.pem ubuntu@ec2-18-191-33-62.us-east-2.compute.amazonaws.com
 ```
+
+## Trojan
+https://github.com/atrandys/trojan
+
+https://github.com/V2RaySSR/Trojan/ 集成一键BBR
+
+root and run
+bash <(curl -s -L https://github.com/V2RaySSR/Trojan/raw/master/Trojan.sh)
+
+
+客户端可搭配 
+Trojan client : https://www.v2rayssr.com/go?url=https://github.com/V2RaySSR/Trojan/raw/master/trojan-client.zip
+chrome socks5 插件：SwitchyOmega_Chromium 不要解压 直接拖放这个插件到 chrome 扩展程序页面
+
+手动 ： https://www.v2rayssr.com/trojanssl.html
+
+V2RayN
+https://github.com/2dust/v2rayN/releases/latest
+然后选择 v2rayN-Core.zip 下载
+
+服务器 ->  new socks server -- 127.0.0.1 . port XXXX (match trojan setup) ， 然后设为活动服务器
+
+```json
+config.json
+{
+    "run_type": "client",
+    "local_addr": "127.0.0.1",
+    "local_port": XXXX,
+    "remote_addr": "aaa.bbb.ccc",
+    "remote_port": 443,
+    "password": [
+        "XXXXXXX"
+    ],
+    "log_level": 1,
+    "ssl": {
+        "verify": true,
+        "verify_hostname": true,
+        "cert": "fullchain.cer",
+        "cipher_tls13":"TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384",
+"sni": "",
+        "alpn": [
+            "h2",
+            "http/1.1"
+        ],
+        "reuse_session": true,
+        "session_ticket": false,
+        "curves": ""
+    },
+    "tcp": {
+        "no_delay": true,
+        "keep_alive": true,
+        "fast_open": false,
+        "fast_open_qlen": 20
+    }
+}
+```
+
+Igniter
+https://github.com/trojan-gfw/igniter/releases
