@@ -165,9 +165,8 @@ https://github.com/2dust/v2rayN/releases/latest
 然后选择 v2rayN-Core.zip 下载
 
 服务器 ->  new socks server -- 127.0.0.1 . port XXXX (match trojan setup) ， 然后设为活动服务器
-
-```json
 config.json
+```json
 {
     "run_type": "client",
     "local_addr": "127.0.0.1",
@@ -242,3 +241,16 @@ lrwxrwxrwx    1 oracle   oinstall        0 12月 29 18:58 root -> /
 -r--r--r--    1 oracle   oinstall        0 12月 29 18:58 statm
 -r--r--r--    1 oracle   oinstall        0 12月 29 18:58 status
 注意cwd，即是你要查找的进程所在路径。 ......
+
+Nginx
+/etc/nginx/nginx.conf
+```json
+{
+    server {
+        listen       80;
+        server_name  aaa.bbb.com;
+        root /usr/share/nginx/html;
+        index index.php index.html index.htm;
+    }
+}
+```
