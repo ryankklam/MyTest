@@ -254,3 +254,20 @@ Nginx
     }
 }
 ```
+
+在cmd下，无法将远程nas文件路径直接cd 访问
+```shellC:\Users\RyanKKLam>cd \\192.168.2.298\Admin
+'\\192.168.2.158\Admin'
+CMD 不支持将 UNC 路径作为当前目录。
+```
+
+
+那如何是好？看第二个命令：pushd，使用"pushd C:\Users\RyanKKLam>cd \\192.168.2.298\Admin"可以将UNC路径映射成本地的Z盘
+```shell
+pushd C:\Users\RyanKKLam>cd \\192.168.2.298\Admin
+Z:\>
+```
+
+执行该命令后，下一个提示符就不是原来的C:\>，而是Z:\>，即已经映射成功的UNC路径。
+这时，就可以像操作本地目录一样操作UNC目录了（实际上在“我的电脑”中会出现一个Z盘的映射，相当于本地硬盘）。如图中所示，cd、dir等命令均可以使用。
+最后，在执行完操作后，别忘了使用popd将映射断开。断开后，提示符又变成了原来的C:\Windows>。
