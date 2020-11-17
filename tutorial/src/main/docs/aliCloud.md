@@ -2,6 +2,8 @@
 
 ##SLB - Server Load Balancer 
 
+1. server certificate 一次只能上传一份服务器证书及对应的私钥
+
 ####SLB功能架构
 1. Load Balancer - 代表SLB实例
 2. Listener - 代表定制的策略和转发规则
@@ -75,6 +77,35 @@ VNC方式登录 1：实例自检原因导致启动速度慢 2：误操作开启�
 SLB的虚拟服务器组如果添加了该ecs，该ecs从经典网络迁移到vpc时，实例不会自动挂载
 本地盘，很多操作都不行
 弹性伸缩生命周期挂钩支持的配置方式不包括OSS主板 
+HTTPDNS主要用在客户端防止url域名挟持
+云态势感知，可以通过手机短讯和电子邮件两种方式发送报警信息
+
+查看某个区域所拥有的ecs实例
+1. 进入ecs控制台
+2. 选择ecs实例管理
+3. 选择地域
+
+
+##OSS
+
+1. 单个object的大小为48.8TB , 每个bucket的容量无上限
+2. oss域名绑定（CNAME）仅支持3级域名 （bucket name）。（region）。aliyuncs。com
+3. 域名绑定必须在工信部备案，不是在阿里云备案
+4. oss提供3重备份(每份数据备份三个副本)，出故障时自动恢复
+
+
+##VPC
+1. 只有两种状态 available （创建成功）/running （配置中）
+2。服务器迁移到同vpc下的同一交换机步骤 （1，3，2，4）  打开控制台/选择所需交换机并指定新ip/找需要迁移的ecs/指定ecs的私网地址
+3. ecsAPI 网址 ecs.aliyuncs.com
+4. 不能开启networkmanager服务
+5. ecs api默认返回格式为json
+
+##ess弹性伸缩
+1. 如果伸缩组里的ecs不在运行状态，则会被自动移除，同时自动创建一个新的ecs加入到伸缩组
+
+
+
 
 
 
